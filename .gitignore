@@ -1,0 +1,28 @@
+# Environment
+.env
+.env.local
+node_modules/
+
+# Backend
+backend/node_modules/
+backend/dist/
+backend/*.log
+backend/generated/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Copilot
+.github/copilot-instruction.md

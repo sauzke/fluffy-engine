@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["public", "lookups", "audit", "data"]
+}
+
+// Lookups Schema - Reference/Lookup data
+model Category {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  color       String       @default("#808080")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  transactions Transaction[]
+
+  @@schema("lookups")
+}
+
+// Audit Schema - CSV upload tracking
+model Upload {
+  id               Int          @id @default(autoincrement())
+  filename         String
+  status           String       @default("pending") // 'pending', 'processing', 'completed', 'failed'
+  transactionCount Int          @default(0)
+  errorMessage     String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  transactions     Transaction[]
+
+  @@schema("audit")
+}
+
+// Data Schema - Actual transactional data
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  description String
+  amount      Decimal  @db.Decimal(10, 2)
+  date        DateTime
+  external_id String?
+  categoryId  Int
+  uploadId    Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  category    Category @relation(fields: [categoryId], references: [id])
+  upload      Upload?  @relation(fields: [uploadId], references: [id], onDelete: SetNull)
+
+  @@schema("data")
+}

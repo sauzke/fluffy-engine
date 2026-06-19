@@ -1,0 +1,21 @@
+{
+  "name": "budget-tracker",
+  "version": "1.0.0",
+  "description": "Full-stack budget tracking application",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "dev": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "backend": "npm --prefix backend run dev",
+    "frontend": "npm --prefix frontend run dev",
+    "prod": "npm --prefix backend start",
+    "seed": "npm --prefix backend run seed",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["budget", "tracker", "fullstack"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
